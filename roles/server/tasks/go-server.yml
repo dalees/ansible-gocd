@@ -11,7 +11,7 @@
   apt: pkg=go-server={{ GOCD_GO_VERSION }} state=present force=yes
   when: ansible_pkg_mgr=='apt'
 
-- name: flag that we're configuration a Go server
+- name: flag that we're configuring a Go server
   set_fact: tmp_gocd_onserver=True
 
 - name: replace /etc/default/go-server from package
@@ -72,4 +72,5 @@
   when: ufw|success
 
 - name: create script for automated Go configuration backups to Git
+  sudo: yes
   template: backup=no dest=/usr/share/go-server/ mode=0755 src=backup_to_git.sh

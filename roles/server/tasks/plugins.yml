@@ -2,14 +2,15 @@
 
 - name: Download install GOCD Plugins
   get_url: url="{{ item }}" dest="{{ GOCD_SERVER_PLUGIN }}"
-  sudo_user: "{{ GOCD_USER }}"
+  become_user: "{{ GOCD_USER }}"
+  become: yes
   with_items: GOCD_PLUGINS_INSTALL
   notify:
    - restart go-server
 
-- name: Remove GOCD  Plugins
+- name: Remove GOCD Plugins
   file: path="{{ GOCD_SERVER_PLUGIN }}/{{ item | basename }}" state=absent
   with_items: GOCD_PLUGINS_REMOVE
-  sudo: yes
+  become: yes
   notify:
    - restart go-server
